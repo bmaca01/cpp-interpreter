@@ -1,9 +1,10 @@
-#include<iostream>
-#include<string>
-#include<cctype>
-#include<sstream>
-#include<fstream>
-#include<map>
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <sstream>
+#include <fstream>
+#include <map>
+#include <bits/stdc++.h>
 
 #include "lex.h"
 #include "parse.h"
