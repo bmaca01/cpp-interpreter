@@ -4,7 +4,8 @@
 #include <sstream>
 #include <fstream>
 #include <map>
-#include <bits/stdc++.h>
+#include <vector>
+#include <algorithm>
 
 #include "lex.h"
 #include "parse.h"
@@ -15,7 +16,7 @@ using namespace std;
 namespace arg_info {
     bool is_file=0, is_flag=0, is_valid=0;
     bool flag_state[1] = {0};
-    string flags[1] = {"-v"};
+    vector<string> flags = {"-v"};
     int file_cnt=0;
 
     int index=0, max=0, err_code=0;
@@ -38,9 +39,10 @@ namespace arg_info {
     }
 
     void verify_arg(string arg) {
+        // Check if the arg is a flag
         if (arg[0] == '-') {
             is_flag=1;
-            int tmp = find(4, flags, arg);
+            int tmp = find(flags.size(), flags, arg);
             if (tmp != -1) {
                 is_valid=1;
                 flag_state[tmp] = 1;
@@ -51,6 +53,7 @@ namespace arg_info {
                 err_code=1;
             }
         }
+        // Check if the arg is a recognized file
         else {
             is_file=1;
             file_cnt++;
