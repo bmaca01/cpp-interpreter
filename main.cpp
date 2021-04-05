@@ -27,7 +27,7 @@ namespace arg_info {
     void verify_arg(string arg);
     void reset_state();
 
-    int find(int size, string* arr, string str) {
+    int find(int size, vector<string> arr, string str) {
         // returns index of matched string, 
         // returns -1 if not found.
         for (int i=0; i<size; i++) {
