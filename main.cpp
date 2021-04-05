@@ -15,7 +15,8 @@ using namespace std;
 
 namespace arg_info {
     bool is_file=0, is_flag=0, is_valid=0;
-    bool flag_state[1] = {0};
+    //bool flag_state[1] = {0};
+    vector<bool> flag_state = {0};
     vector<string> flags = {"-v"};
     int file_cnt=0;
 
@@ -23,13 +24,11 @@ namespace arg_info {
 
     ifstream file;
 
-    int find(int size, string* arr, string str);
+    int find(int size, vector<string> arr, string str);
     void verify_arg(string arg);
     void reset_state();
 
     int find(int size, vector<string> arr, string str) {
-        // returns index of matched string, 
-        // returns -1 if not found.
         for (int i=0; i<size; i++) {
             string currStr = arr[i];
             if (currStr.compare(str) == 0) 

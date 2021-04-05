@@ -127,6 +127,11 @@ Pt *RepeatStmt(istream& in, int& line) {
         ParseError(line, "Missing expression after repeat");
         return 0;
     }
+    if (!t1->isConst() || t1->get_val() == 0) {
+        ParseError(line, "Invalid Expression");
+        return 0;
+    }
+    
 
     while (true) {
         Tok t = Parser::GetNextToken(in, line);
