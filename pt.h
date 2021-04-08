@@ -166,74 +166,20 @@ public:
             if (rVal.isErr()) {
                 throw string("Invalid Expression");
             }
+
+            // If variable is not defined
             if (left->Eval(syms).isErr()) {
-                // Identifier not defined
-                if (left->isEq()) {
-                    // If multiple variables are defined in one expression
-                    // eg: x = y = z = w = 1;
-                    vector<string> idents;
-                    vector<Pt *> visited;
-                    vector<Pt *>::iterator it;
-                    Pt *tmp = left;
-                    // Start at the left node
-                    while (true) {
-                        // if the current node has a left node and it hasn't
-                        // been visited yet
-                        if (tmp->getLeft() && 
-                            !(find(visited.begin(), visited.end(), tmp->getLeft()) != visited.end())) 
-                        {
-                            visited.push_back(tmp);
-                            tmp = tmp->getLeft();
-                            continue;
-                        }
-
-                        // if the current node has a right node and it hasn't
-                        // been visited yet
-                        else if (tmp->getRight() && 
-                            !(find(visited.begin(), visited.end(), tmp->getRight()) != visited.end())) 
-                        {
-                            idents.push_back(tmp->getRight()->getId());
-                            it--;
-                            tmp = *it;
-                        }
-
-                        // if the current node is an identifier
-                        // This case is only valid if the current node is the
-                        // bottom left-most node
-                        else if (tmp->isIdent()) {
-                            idents.push_back(tmp->getId());
-                            tmp = *visited.end();
-                            it = visited.end();
-                        }
-
-                        else if (it == visited.begin()) {
-                            idents.push_back(tmp->getRight()->getId());
-                            break;
-                        }
-                    }
-
-                    // Assign Values to the identifiers found
-                    for (auto it = idents.begin(); it != idents.end(); it++) {
-                        syms.insert(pair<string, Value>(*it, rVal));
-                    }
-                }
-
-                else {
-                    // If its a single variable definition
-                    syms.insert(pair<string, Value>(left->getId(), rVal));
-                }
+                syms.insert(pair<string, Value>(left->getId(), rVal));
             }
 
             else {
                 // Update the variable
-                if (left->getId().size() == 0) {
-                    throw string("Cannot assign constant to constant");
-                }
                 syms[left->getId()] = rVal;
             }
 
-            // If successful, returns the identifier's name as a Value
-            return Value(syms[left->getId()]);
+            // If successful, returns the value that was assigned to the
+            // identifier
+            return syms[left->getId()];
         }
         catch (string& e)
         {
