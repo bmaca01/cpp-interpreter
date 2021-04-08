@@ -144,9 +144,10 @@ public:
                 i = lVal.getInt();
             }
 
-            if (right->Eval(syms).isErr()) {
+            if (right->isConst() || right->isIdent()) {
                 throw string("Repeat statement invalid");
             }
+
             for (int x=0; x < i; x++) {
                 right->Eval(syms);
             }
