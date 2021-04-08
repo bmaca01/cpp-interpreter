@@ -10,7 +10,7 @@ enum ValType { VINT, VSTR, VERR };
 class Value {
     ValType T;
     int I;
-    String S;
+    string S;
 
 public:
     Value(): T(VERR), I(0) {}
@@ -19,18 +19,18 @@ public:
 
     ValType GetType() const { return T; }
     bool isErr() const { return T == VERR; }
-    bool isINt() const { return T == VINT; }
+    bool isInt() const { return T == VINT; }
     bool isStr() const { return T == VSTR; }
 
-    int getInt() const {if (isInt()) { return i; } throw "RUNTIME ERROR: Value not an integer";}
-    int getStr() const {if (isStr()) { return S; } throw "RUNTIME ERROR: Value not a string";}
+    int getInt() const {if (isInt()) { return I; } throw string("RUNTIME ERROR: Value not an integer");}
+    string getStr() const {if (isStr()) { return S; } throw string("RUNTIME ERROR: Value not a string");}
 
     Value operator+(const Value& op) const;
     Value operator-(const Value& op) const;
     Value operator*(const Value& op) const;
     Value operator/(const Value& op) const;
 
-    friend osteam& operator<<(ostream& out, const Value& op) {
+    friend ostream& operator<<(ostream& out, const Value& op) {
         if (op.isInt()) {
             out << op.I;
         }

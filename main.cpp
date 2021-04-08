@@ -126,6 +126,7 @@ int Pt::CountEq() const {
 
 int main(int argc, char* argv[]) {
     using namespace arg_info;
+    map<string, Value> syms;
     int ln_num = 0;
     Tok tok;
     istream* in = &cin;
@@ -162,6 +163,7 @@ int main(int argc, char* argv[]) {
         int p = head->CountPlus();
         int e = head->CountEq();
         int d = head->MaxDepth();
+        //head->Eval(syms);
 
         cout << "PLUS COUNT: " << p << endl;
         cout << "EQ COUNT: " << e << endl;
