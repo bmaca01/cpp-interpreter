@@ -181,11 +181,11 @@ Pt *Expr(istream& in, int& line) {
 
         Pt *t2;
         if (nested_ass) {
-            *t2 = Expr(in, line);
+            t2 = Expr(in, line);
             nested_ass = false;
         }
         else {
-            *t2 = Sum(in, line);
+            t2 = Sum(in, line);
             if (t2 == 0) {
                 ParseError(line, "Missing expression after equals");
                 return 0;
