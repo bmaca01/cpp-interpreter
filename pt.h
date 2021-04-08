@@ -84,17 +84,13 @@ public:
             if (lVal.isErr()) {
                 throw string("Invalid expression to print");
             }
-            else if (left->isEq()) {
-                «»
-            }
-            «»
-
+            
+            cout << lVal;
         }
-        catch («»)
+        catch (string& e)
         {
-            «»
+            cout << e << endl;
         }
-        «»
         return Value();
     }
 };
@@ -103,7 +99,19 @@ class Println : public Pt {
 public:
     Println(int line, Pt *e) : Pt(line, e) {}
     Value Eval(map<string, Value>& syms) {
-        // Placeholder
+        try
+        {
+            Value lVal = left->Eval(syms);
+            if (lVal.isErr()) {
+                throw string("Invalid expression to print");
+            }
+            
+            cout << lVal << endl;
+        }
+        catch (string& e)
+        {
+            cout << e << endl;
+        }
         return Value();
     }
 };
