@@ -9,7 +9,7 @@ Value Value::operator+(const Value& op) const {
     else if (isStr() && op.isStr()) {
         return getStr() + op.getStr();
     }
-    throw string("RUNTIME ERROR: Can only add int + int or str + str");
+    throw string("Can only add int + int or str + str");
 }
 
 Value Value::operator-(const Value& op) const {
@@ -24,7 +24,7 @@ Value Value::operator-(const Value& op) const {
         }
         return Value(getStr().replace(getStr().find(op.getStr()), op.getStr().length(), ""));
     }
-    throw string("RUNTIME ERROR: Can only subtract int - int or str - str");
+    throw string("Can only subtract int - int or str - str");
 }
 
 Value Value::operator*(const Value& op) const {
@@ -45,12 +45,12 @@ Value Value::operator*(const Value& op) const {
         }
         return Value(rtn);
     }
-    throw string("RUNTIME ERROR: Can only multiply int * int or str * int");
+    throw string("Can only multiply int * int or str * int");
 }
 
 Value Value::operator/(const Value& op) const {
     if (isInt() && op.isInt()) {
         return Value(getInt() / op.getInt());
     }
-    throw string("RUNTIME ERROR: Can only divide int / int");
+    throw string("Can only divide int / int");
 }

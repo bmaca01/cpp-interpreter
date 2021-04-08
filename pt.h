@@ -89,7 +89,7 @@ public:
         }
         catch (string& e)
         {
-            cout << e << endl;
+            cout << "RUNTIME ERROR: " << e << endl;
         }
         return Value();
     }
@@ -110,7 +110,7 @@ public:
         }
         catch (string& e)
         {
-            cout << e << endl;
+            cout << "RUNTIME ERROR: " << e << endl;
         }
         return Value();
     }
@@ -154,7 +154,7 @@ public:
         }
         catch (string& e)
         {
-            cout << e << endl;
+            cout << "RUNTIME ERROR: " << e << endl;
         }
         return Value();
     }
@@ -193,7 +193,7 @@ public:
         }
         catch (string& e)
         {
-            cout << e << endl;
+            cout << "RUNTIME ERROR: " << e << endl;
         }
         return Value();
     }
@@ -216,7 +216,7 @@ public:
         }
         catch (string& e)
         {
-            cout << e << endl;
+            cout << "RUNTIME ERROR: " << e << endl;
         }
         return Value();
     }
@@ -237,7 +237,7 @@ public:
         }
         catch (string& e)
         {
-            cout << e << endl;
+            cout << "RUNTIME ERROR: " << e << endl;
         }
         return Value();
     }
@@ -258,7 +258,7 @@ public:
         }
         catch (string& e)
         {
-            cout << e << endl;
+            cout << "RUNTIME ERROR: " << e << endl;
         }
         return Value();
     }
@@ -279,7 +279,7 @@ public:
         }
         catch (string& e)
         {
-            cout << e << endl;
+            cout << "RUNTIME ERROR: " << e << endl;
         }
         return Value();
     }
