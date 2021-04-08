@@ -166,14 +166,20 @@ Pt *Expr(istream& in, int& line) {
     while (true) {
         Tok t = Parser::GetNextToken(in, line);
 
-        if (t == IDENT) {
-            Parser::PushBackToken(t);
-            nested_ass = true;
-        }
         if (t != EQ) {
             Parser::PushBackToken(t);
             return t1;
         }
+
+        t = Parser::GetNextToken(in, line);
+        if (t == IDENT) {
+            Parser::PushBackToken(t);
+            nested_ass = true;
+        }
+        else{
+            Parser::PushBackToken(t);
+        }
+
         if ((!t1->isIdent() && !t1->isEq()) || (t1->isEq() && t1->getRight()->isConst())) {
             ParseError(line, "Invalid assignment");
             return 0;

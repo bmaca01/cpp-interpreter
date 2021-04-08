@@ -163,7 +163,7 @@ int main(int argc, char* argv[]) {
         int p = head->CountPlus();
         int e = head->CountEq();
         int d = head->MaxDepth();
-        //head->Eval(syms);
+        head->Eval(syms);
 
         cout << "PLUS COUNT: " << p << endl;
         cout << "EQ COUNT: " << e << endl;

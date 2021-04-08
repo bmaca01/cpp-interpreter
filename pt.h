@@ -175,8 +175,9 @@ public:
                 throw string("Invalid Expression");
             }
 
+            Value lVal = left->Eval(syms);
             // If variable is not defined
-            if (left->Eval(syms).isErr()) {
+            if (lVal.isErr() && left->isIdent()) {
                 syms.insert(pair<string, Value>(left->getId(), rVal));
             }
 
