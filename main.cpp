@@ -1,9 +1,11 @@
-#include<iostream>
-#include<string>
-#include<cctype>
-#include<sstream>
-#include<fstream>
-#include<map>
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <sstream>
+#include <fstream>
+#include <map>
+#include <vector>
+#include <algorithm>
 
 #include "lex.h"
 #include "parse.h"
@@ -13,21 +15,20 @@ using namespace std;
 
 namespace arg_info {
     bool is_file=0, is_flag=0, is_valid=0;
-    bool flag_state[1] = {0};
-    string flags[1] = {"-v"};
+    //bool flag_state[1] = {0};
+    vector<bool> flag_state = {0};
+    vector<string> flags = {"-v"};
     int file_cnt=0;
 
     int index=0, max=0, err_code=0;
 
     ifstream file;
 
-    int find(int size, string* arr, string str);
+    int find(int size, vector<string> arr, string str);
     void verify_arg(string arg);
     void reset_state();
 
-    int find(int size, string* arr, string str) {
-        // returns index of matched string, 
-        // returns -1 if not found.
+    int find(int size, vector<string> arr, string str) {
         for (int i=0; i<size; i++) {
             string currStr = arr[i];
             if (currStr.compare(str) == 0) 
@@ -37,9 +38,10 @@ namespace arg_info {
     }
 
     void verify_arg(string arg) {
+        // Check if the arg is a flag
         if (arg[0] == '-') {
             is_flag=1;
-            int tmp = find(4, flags, arg);
+            int tmp = find(flags.size(), flags, arg);
             if (tmp != -1) {
                 is_valid=1;
                 flag_state[tmp] = 1;
@@ -50,6 +52,7 @@ namespace arg_info {
                 err_code=1;
             }
         }
+        // Check if the arg is a recognized file
         else {
             is_file=1;
             file_cnt++;
@@ -123,6 +126,7 @@ int Pt::CountEq() const {
 
 int main(int argc, char* argv[]) {
     using namespace arg_info;
+    map<string, Value> syms;
     int ln_num = 0;
     Tok tok;
     istream* in = &cin;
@@ -159,6 +163,7 @@ int main(int argc, char* argv[]) {
         int p = head->CountPlus();
         int e = head->CountEq();
         int d = head->MaxDepth();
+        head->Eval(syms);
 
         cout << "PLUS COUNT: " << p << endl;
         cout << "EQ COUNT: " << e << endl;

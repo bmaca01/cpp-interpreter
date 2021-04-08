@@ -127,6 +127,13 @@ Pt *RepeatStmt(istream& in, int& line) {
         ParseError(line, "Missing expression after repeat");
         return 0;
     }
+    /*
+    if (!t1->Eval().isInt() || t1->Eval().getInt() <= 0) {
+        ParseError(line, "Invalid Expression");
+        return 0;
+    }
+     *
+     * */
 
     while (true) {
         Tok t = Parser::GetNextToken(in, line);
@@ -151,6 +158,7 @@ Pt *RepeatStmt(istream& in, int& line) {
 
 Pt *Expr(istream& in, int& line) {
 
+    bool nested_ass = false;
     Pt *t1 = Sum(in, line);
     if (t1 == 0) {
         return 0;
@@ -163,10 +171,31 @@ Pt *Expr(istream& in, int& line) {
             return t1;
         }
 
-        Pt *t2 = Sum(in, line);
-        if (t2 == 0) {
-            ParseError(line, "Missing expression after equals");
+        t = Parser::GetNextToken(in, line);
+        if (t == IDENT) {
+            Parser::PushBackToken(t);
+            nested_ass = true;
+        }
+        else{
+            Parser::PushBackToken(t);
+        }
+
+        if ((!t1->isIdent() && !t1->isEq()) || (t1->isEq() && t1->getRight()->isConst())) {
+            ParseError(line, "Invalid assignment");
             return 0;
+        }
+
+        Pt *t2;
+        if (nested_ass) {
+            t2 = Expr(in, line);
+            nested_ass = false;
+        }
+        else {
+            t2 = Sum(in, line);
+            if (t2 == 0) {
+                ParseError(line, "Missing expression after equals");
+                return 0;
+            }
         }
         t1 = new Assign(t.GetLinenum(), t1, t2);  
     }
@@ -185,6 +214,13 @@ Pt *Sum(istream& in, int& line) {
 
         if (t != PLUS && t != MINUS) {
             Parser::PushBackToken(t);
+            /*
+            if (t1->Eval().isErr()) {
+                ParseError(line, "Invalid Operation");
+                return 0;
+            }
+             *
+             * */
             return t1;
         }
 
@@ -215,6 +251,13 @@ Pt *Prod(istream& in, int& line) {
 
         if (t != STAR && t != SLASH) {
             Parser::PushBackToken(t);
+            /*
+            if (t1->Eval().isErr()) {
+                ParseError(line, "Invalid Operation");
+                return 0;
+            }
+             *
+             * */
             return t1;
         }
 
@@ -242,6 +285,10 @@ Pt *Primary(istream& in, int& line) {
             Pt *e = Expr(in, line);
             if (e == 0) {
                 ParseError(line, "Missing statement in parens");
+                return 0;
+            }
+            if (e->isEq()) {
+                ParseError(line, "Invalid Expression");
                 return 0;
             }
             else {
